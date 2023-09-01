@@ -1,12 +1,11 @@
-// MeddySDKCLI.cpp : Defines the entry point for the application.
-//
 
 #include "MeddySDKCLI.h"
 
-using namespace std;
+#include <iostream>
 
-int main()
+int main(int argc, char** argv)
 {
-    cout << "Hello CMake." << endl;
+    std::cout << "Hello CMake." << std::endl;
+
     return 0;
 }
