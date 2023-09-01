@@ -1,4 +1,4 @@
-﻿// MeddySDKCLI.h : Include file for standard system include files,
+// MeddySDKCLI.h : Include file for standard system include files,
 // or project specific include files.
 
 #pragma once

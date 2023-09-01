@@ -1,4 +1,4 @@
-﻿// MeddySDKCLI.cpp : Defines the entry point for the application.
+// MeddySDKCLI.cpp : Defines the entry point for the application.
 //
 
 #include "MeddySDKCLI.h"
