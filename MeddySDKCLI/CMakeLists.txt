@@ -5,20 +5,17 @@ project("MeddySDKCLI" LANGUAGES CXX)
 
 add_executable(MeddySDKCLI)
 
-# Include CMake scripts
-include(CMake/MeddySDKCLI.cmake)
+target_sources(MeddySDKCLI
+  PRIVATE
+    "Source/Private/MeddySDKCLI.cpp"
+  )
 
-# Configure MeddySDKCLI sources
-
-target_sources(MeddySDKCLI PUBLIC ${MEDDYSDKCLI_SOURCE_FILES_PUBLIC})
-
-target_sources(MeddySDKCLI PRIVATE ${MEDDYSDKCLI_SOURCE_FILES_PRIVATE})
-
-# Configure MeddySDKCLI include directories
-
-target_include_directories(MeddySDKCLI PUBLIC ${MEDDYSDKCLI_SOURCE_PATHNAME_PUBLIC})
-
-target_include_directories(MeddySDKCLI PRIVATE ${MEDDYSDKCLI_SOURCE_PATHNAME})
+target_include_directories(MeddySDKCLI
+  PUBLIC
+    "Source/Public"
+  PRIVATE
+    "Source"
+  )
 
 # Enable C++20 if supported
 if(CMAKE_VERSION VERSION_GREATER 3.12)
