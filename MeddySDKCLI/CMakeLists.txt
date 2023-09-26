@@ -34,6 +34,10 @@ target_sources(MeddySDKCLI
 #
 # No install-specific directories are provided here. That gets taken care of
 # elsewhere, i.e., the install command.
+#
+# Also, make sure include statements of public headers are compatible between install interface users
+# and build interface users. E.g., a user's include statements should work for both packaged
+# library usage and subproject library usage, without having to adapt their code to either usage.
 target_include_directories(MeddySDKCLI
   PUBLIC
     "$<BUILD_INTERFACE:${MeddySDKCLI_SOURCE_DIR}/Source/Public>" # add our public includes
@@ -59,7 +63,7 @@ install(TARGETS MeddySDKCLI
   LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
   ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
   RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
-  INCLUDES DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}" # gets added to interface include directories
+  INCLUDES DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/MeddySDKCLI" # gets added to interface include directories
   FILE_SET meddysdkcli_public_headers DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/MeddySDKCLI" # copy over public headers
   )
 
