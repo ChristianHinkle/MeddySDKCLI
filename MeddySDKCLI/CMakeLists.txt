@@ -46,13 +46,19 @@ target_include_directories(MeddySDKCLI
     "$<BUILD_INTERFACE:${MeddySDKCLI_SOURCE_DIR}/Source>" # add easy access to non-public includes
   )
 
-# Get the Meddyproject export. This gives us its imported targets.
-find_package(Meddyproject 0 CONFIG REQUIRED)
+# Get the MeddySDK_Meddyproject export. This gives us its imported targets.
+find_package(MeddySDK_Meddyproject 0 CONFIG REQUIRED)
 
 # Add dependencies to other targets.
+#
+# We avoid using namespaces of the exports when refering to targets because we don't want to limit
+# support to install interface users. We want to support build interface usage of the targets. Namely,
+# this gives support to users that want to do `OVERRIDE_FIND_PACKAGE` with `FetchContent_Declare()` of
+# a project that defines a target. In which case, no export exists for the target, the target was
+# just created directly by the subproject.
 target_link_libraries(MeddySDKCLI
   PRIVATE
-    MeddySDK::Meddyproject # add the imported Meddyproject target
+    MeddySDK_Meddyproject # add the imported MeddySDK_Meddyproject target
   )
 
 include(GNUInstallDirs)
@@ -70,7 +76,7 @@ install(TARGETS MeddySDKCLI
 # Generate script that imports targets associated with our export.
 install(EXPORT MeddySDKCLIExport
   FILE "MeddySDKCLIExport.cmake"
-  NAMESPACE MeddySDK::
+  NAMESPACE MeddySDKCLI::
   DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/MeddySDKCLI"
   )
 
