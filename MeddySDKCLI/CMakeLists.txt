@@ -5,8 +5,25 @@ project(MeddySDKCLI
   VERSION 0.1
   LANGUAGES CXX
   )
-
+  
+# Add target.
+#
+# We namespace target names using underscore characters "_". Not namespacing your target names can result in their
+# file names not be specific enough. E.g., for the DAM library of MeddySDK, we want its library file to be named
+# something like "MeddySDK_DAM.lib" instead of just "DAM.lib" - because would be super unclear.
 add_executable(MeddySDKCLI)
+
+# Add alias targets named with special characters that files can't have.
+#
+# We use these aliases when refering to the targets so that it's impossible for CMake to interpret them as files.
+#
+# It's conventional to use "::" in these names like namespaces. Our targets are already named with namespacing in mind so
+# we just prepend "::" to their names, analogous to how we indicate global scope in cpp.
+#
+# The aliases are used by build interface users. Install interface users use the original target names combined with their
+# export namespaces. Make sure the names for both use cases are the same. This is important for consistency. Namely, so
+# that build interface users can use `OVERRIDE_FIND_PACKAGE` with `FetchContent_Declare()`.
+add_executable(::MeddySDKCLI ALIAS MeddySDKCLI)
 
 # Add source files. Including header files as well so they are easily-discoverable by IDEs.
 target_sources(MeddySDKCLI
@@ -50,15 +67,9 @@ target_include_directories(MeddySDKCLI
 find_package(MeddySDK_Meddyproject 0 CONFIG REQUIRED)
 
 # Add dependencies to other targets.
-#
-# We avoid using namespaces of the exports when refering to targets because we don't want to limit
-# support to install interface users. We want to support build interface usage of the targets. Namely,
-# this gives support to users that want to do `OVERRIDE_FIND_PACKAGE` with `FetchContent_Declare()` of
-# a project that defines a target. In which case, no export exists for the target, the target was
-# just created directly by the subproject.
 target_link_libraries(MeddySDKCLI
   PRIVATE
-    MeddySDK_Meddyproject # add the imported MeddySDK_Meddyproject target
+    ::MeddySDK_Meddyproject # add the imported ::MeddySDK_Meddyproject target
   )
 
 include(GNUInstallDirs)
@@ -76,7 +87,7 @@ install(TARGETS MeddySDKCLI
 # Generate script that imports targets associated with our export.
 install(EXPORT MeddySDKCLIExport
   FILE "MeddySDKCLIExport.cmake"
-  NAMESPACE MeddySDKCLI::
+  NAMESPACE ::
   DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/MeddySDKCLI"
   )
 
