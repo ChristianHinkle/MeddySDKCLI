@@ -78,7 +78,9 @@ find_package(MeddySDK_Meddyproject 0 CONFIG REQUIRED)
 # Add dependencies to other targets.
 target_link_libraries(MeddySDKCLI
   PRIVATE
-    ::MeddySDK_Meddyproject # add the imported ::MeddySDK_Meddyproject target.
+    # Only depend on imported targets if we are BUILD_LOCAL_INTERFACE because we don't
+    # want to have to put them in the export.
+    $<BUILD_LOCAL_INTERFACE:::MeddySDK_Meddyproject> # add the imported ::MeddySDK_Meddyproject target.
   )
 
 include(GNUInstallDirs)
