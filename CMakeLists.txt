@@ -94,7 +94,7 @@ target_link_libraries(MeddySDKCLI
   PRIVATE
     # Only depend on imported targets if we are BUILD_LOCAL_INTERFACE because we don't
     # want to have to put them in the export.
-    $<BUILD_LOCAL_INTERFACE:MeddySDK::Meddyproject> # add the imported MeddySDK::Meddyproject target.
+    $<BUILD_LOCAL_INTERFACE:MeddySDK::Meddyproject> # Add the imported MeddySDK::Meddyproject target as a dependency.
   )
 
 include(GNUInstallDirs)
