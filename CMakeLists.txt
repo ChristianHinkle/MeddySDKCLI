@@ -122,7 +122,7 @@ install(TARGETS MeddySDKCLI
 # Generate script that imports targets associated with our export.
 install(EXPORT MeddySDKCLIExport
   FILE "MeddySDKCLIExport.cmake"
-  DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/MeddySDKCLI" # TODO: should we include the ${PROJECT_VERSION} in this destination path?
+  DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/MeddySDKCLI"
   )
 
 # Create a package version file for our export.
