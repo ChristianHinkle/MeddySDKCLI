@@ -64,7 +64,7 @@ target_sources(MeddySDKCLI
         "${CMAKE_CURRENT_BINARY_DIR}"
       FILES
         # Add all public header files.
-        "${MeddySDKCLI_SOURCE_DIR}/Source/Public/MeddySDKCLI.h"
+        "${MeddySDKCLI_SOURCE_DIR}/Source/Public/Main.h"
   PRIVATE
     FILE_SET meddysdkcli_private_headers
       TYPE HEADERS
@@ -84,7 +84,7 @@ target_sources(MeddySDKCLI
 # Add all source files.
 target_sources(MeddySDKCLI
   PRIVATE
-    "${MeddySDKCLI_SOURCE_DIR}/Source/Private/MeddySDKCLI.cpp"
+    "${MeddySDKCLI_SOURCE_DIR}/Source/Private/Main.cpp"
   )
 
 # Get the MeddySDK_Meddyproject export. This gives us its imported targets.
