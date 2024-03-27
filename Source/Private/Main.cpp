@@ -2,12 +2,21 @@
 
 #include "Main.h"
 
+#include "ProjectPath.h"
 #include <iostream>
-#include "MeddySDK_Meddyproject.h"
 
 int main(int argc, char** argv)
 {
-    MeddySDK::Meddyproject::MyBoostFilesystemExperiment();
+    std::filesystem::path videosPath =
+        std::filesystem::weakly_canonical("c:/Users/Meddy Man/Videos");
+
+    std::cout << videosPath << std::endl;
+
+    std::filesystem::path videosMeddyprojectPath =
+        MeddySDK::Meddyproject::ProjectPath::MakeProjectPath(videosPath);
+
+    std::cout << std::endl;
+    std::cout << videosMeddyprojectPath << std::endl;
 
     return 0;
 }
