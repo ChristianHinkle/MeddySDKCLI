@@ -2,7 +2,7 @@
 
 #include "Main.h"
 
-#include "ProjectPath.h"
+#include "Path.h"
 #include <iostream>
 
 int main(int argc, char** argv)
@@ -13,7 +13,7 @@ int main(int argc, char** argv)
     std::cout << videosPath << std::endl;
 
     std::filesystem::path videosMeddyprojectPath =
-        MeddySDK::Meddyproject::ProjectPath::MakeProjectPath(videosPath);
+        MeddySDK::Meddyproject::Path::MakeProjectPath(videosPath);
 
     std::cout << std::endl;
     std::cout << videosMeddyprojectPath << std::endl;
