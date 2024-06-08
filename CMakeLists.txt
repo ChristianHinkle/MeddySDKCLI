@@ -158,21 +158,23 @@ set(CPACK_INSTALL_CMAKE_PROJECTS "${CMAKE_BINARY_DIR};${PROJECT_NAME};ALL;/")
 # nice so we can generate our own config without conflicting with other projects.
 set(CPACK_OUTPUT_CONFIG_FILE "${CMAKE_BINARY_DIR}/${PROJECT_NAME}/CPackConfig.cmake")
 
-if(CPACK_GENERATOR MATCHES "NSIS")
-  #
-  # Use NSIS' feature for appending our binary directory to the PATH environment
-  # variable.
-  #
-  # TODO @techdebt: We want to have this functionality for other generators as well. I
-  # don't believe there's a generator-agnostic solution to this. E.g., in CMake's source
-  # code, they re-implement this feature for their WIX generator. I believe this kind
-  # of per-generator implementation would be the "correct" way. Alternatively, it's technically
-  # possible to run an install script that sets the env var manually but we would have to
-  # be transparent about it and give the user control over that behavior - not to mention, it
-  # would also have to do the opposite on uninstall.
-  #
-  set(CPACK_NSIS_MODIFY_PATH "ON")
-endif()
+# TODO: Decide on an appropriate place to set generator-specific variables. I tried
+# wrapping this NSIS-specific variable in an if condition `CPACK_GENERATOR MATCHES "NSIS"` but
+# it was never being entered.
+
+#
+# Use NSIS' feature for appending our binary directory to the PATH environment
+# variable.
+#
+# TODO @techdebt: We want to have this functionality for other generators as well. I
+# don't believe there's a generator-agnostic solution to this. E.g., in CMake's source
+# code, they re-implement this feature for their WIX generator. I believe this kind
+# of per-generator implementation would be the "correct" way. Alternatively, it's technically
+# possible to run an install script that sets the env var manually but we would have to
+# be transparent about it and give the user control over that behavior - not to mention, it
+# would also have to do the opposite on uninstall.
+#
+set(CPACK_NSIS_MODIFY_PATH "ON")
 
 # Generate a CPackConfig.cmake file for this project.
 include(CPack)
