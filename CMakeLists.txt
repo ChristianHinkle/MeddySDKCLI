@@ -17,7 +17,8 @@ project(MeddySDKCLI
 # something like "MeddySDK_DAM.lib" instead of just "DAM.lib" - because that would be super vague.
 #
 
-add_executable(MeddySDKCLI)
+# Name the executable "meddy" (instead of "MeddySDKCLI") for our desired command name in the command line.
+add_executable(meddy)
 
 #
 # Add alias targets.
@@ -34,10 +35,10 @@ add_executable(MeddySDKCLI)
 # `FetchContent_Declare()`.
 #
 
-add_executable(::MeddySDKCLI ALIAS MeddySDKCLI)
+add_executable(::MeddySDKCLI ALIAS meddy)
 
 # List out required language features.
-target_compile_features(MeddySDKCLI
+target_compile_features(meddy
   PUBLIC
     cxx_std_20
   )
@@ -55,7 +56,7 @@ target_compile_features(MeddySDKCLI
 #
 # A nice benefit of listing all header files is that they can be easily-discoverable by IDEs.
 #
-target_sources(MeddySDKCLI
+target_sources(meddy
   PUBLIC
     FILE_SET meddysdkcli_public_headers
       TYPE HEADERS
@@ -84,7 +85,7 @@ target_sources(MeddySDKCLI
   )
 
 # Add all source files.
-target_sources(MeddySDKCLI
+target_sources(meddy
   PRIVATE
     "${MeddySDKCLI_SOURCE_DIR}/Source/Private/Main.cpp"
   )
@@ -93,7 +94,7 @@ target_sources(MeddySDKCLI
 find_package(MeddySDK_Meddyproject 0 CONFIG REQUIRED)
 
 # Add dependencies to other targets.
-target_link_libraries(MeddySDKCLI
+target_link_libraries(meddy
   PRIVATE
     # Only depend on imported targets if we are BUILD_LOCAL_INTERFACE because we don't
     # want to have to put them in the export.
@@ -103,7 +104,7 @@ target_link_libraries(MeddySDKCLI
 include(GNUInstallDirs)
 
 # Associate our target with an export and set up installation.
-install(TARGETS MeddySDKCLI
+install(TARGETS meddy
   EXPORT MeddySDKCLIExport
   LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
   ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
