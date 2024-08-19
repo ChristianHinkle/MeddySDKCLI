@@ -13,7 +13,7 @@ int main(int argc, char** argv)
     std::cout << videosPath << std::endl;
 
     std::filesystem::path videosMeddyprojectPath =
-        MeddySDK::Meddyproject::Path::MakeProjectPath(videosPath);
+        MeddySDK::Meddyproject::Path::MakeProjectPath(std::filesystem::path(videosPath));
 
     std::cout << std::endl;
     std::cout << videosMeddyprojectPath << std::endl;
