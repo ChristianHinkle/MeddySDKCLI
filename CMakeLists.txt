@@ -9,6 +9,10 @@ project(MeddySDKCLI
   LANGUAGES CXX
   )
 
+# Tell CMake where our cmake scripts ("modules") are.
+list(APPEND CMAKE_MODULE_PATH "${MeddySDKCLI_SOURCE_DIR}/CMake/Modules")
+list(APPEND CMAKE_MODULE_PATH "${MeddySDKCLI_SOURCE_DIR}/CMake/Modules/CPack")
+
 #
 # Add targets.
 #
@@ -155,7 +159,7 @@ set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "${PROJECT_DESCRIPTION}")
 set(CPACK_PACKAGE_HOMEPAGE_URL "${PROJECT_HOMEPAGE_URL}")
 set(CPACK_INSTALL_CMAKE_PROJECTS "${CMAKE_BINARY_DIR};${PROJECT_NAME};ALL;/")
 
-# Output the generated CPack configs in a directory specific to this project. This is
+# Tell CMake to output the generated CPack configs in a directory specific to this project. This is
 # nice so we can generate our own config without conflicting with other projects.
 set(CPACK_OUTPUT_CONFIG_FILE "${CMAKE_BINARY_DIR}/${PROJECT_NAME}/CPackConfig.cmake")
 set(CPACK_SOURCE_OUTPUT_CONFIG_FILE "${CMAKE_BINARY_DIR}/${PROJECT_NAME}/CPackSourceConfig.cmake")
@@ -168,13 +172,17 @@ set(CPACK_SOURCE_OUTPUT_CONFIG_FILE "${CMAKE_BINARY_DIR}/${PROJECT_NAME}/CPackSo
 # Use NSIS' feature for appending our binary directory to the PATH environment
 # variable.
 #
-# TODO @techdebt: We want to have this functionality for other generators as well. I
-# don't believe there's a generator-agnostic solution to this. E.g., in CMake's source
-# code, they re-implement this feature for their WIX generator. I believe this kind
-# of per-generator implementation would be the "correct" way. Alternatively, it's technically
-# possible to run an install script that sets the env var manually but we would have to
-# be transparent about it and give the user control over that behavior - not to mention, it
-# would also have to do the opposite on uninstall.
+# See our custom NSIS template where we make sure the "PATH" environment variable is
+# modified by default: "CMake/Modules/CPack/NSIS.InstallOptions.ini.in".
+#
+# TODO: I would like to have this functionality for other generators as well, but I
+# can't seem to find a generator-agnostic solution to this. E.g., in CMake's source
+# code, they re-implement this feature specifically for their WIX generator. I believe this
+# kind of per-generator implementation would be the "correct" way. Alternatively, it might
+# be possible to invoke a script that sets the env var manually after the generator finishes
+# installation of the package, but I would want to be transparent about that and give the
+# user control over that behavior; not to mention, it would also have to do the opposite
+# on uninstall.
 #
 set(CPACK_NSIS_MODIFY_PATH "ON")
 
