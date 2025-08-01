@@ -172,6 +172,10 @@ set(CPACK_SOURCE_OUTPUT_CONFIG_FILE "${CMAKE_BINARY_DIR}/${PROJECT_NAME}/CPackSo
 # Use NSIS' feature for appending our binary directory to the PATH environment
 # variable.
 #
+# Important: Make sure you modify your NSIS installation with the file of the "strlen_8192" version before
+# running CPack! Or else the installer will fail to modify the PATH env var for most users, because
+# variables in NSIS cannot exceed 1024 characters by default, and PATH env vars tend to be very lengthy.
+#
 # See our custom NSIS template where we make sure the "PATH" environment variable is
 # modified by default: "CMake/Modules/CPack/NSIS.InstallOptions.ini.in".
 #

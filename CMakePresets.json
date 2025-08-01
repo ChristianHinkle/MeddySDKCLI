@@ -102,6 +102,7 @@
         {
             "name": "meddysdkcli-nsis-x64-debug",
             "displayName": "MeddySDKCLI (NSIS) (x64 Debug)",
+            "description": "Important: Make sure you modify your NSIS installation with the file of the \"strlen_8192\" version before running CPack! Or else the installer will fail to modify the PATH env var for most users, because variables in NSIS cannot exceed 1024 characters by default, and PATH env vars tend to be very lengthy.",
             "configurePreset": "x64-debug",
             "generators": [
                 "NSIS"
