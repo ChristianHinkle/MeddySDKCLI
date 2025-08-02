@@ -122,20 +122,20 @@ install(TARGETS meddy
   # install interface users and build interface users. E.g., a user's include statements should work for
   # both packaged library usage and subproject library usage, without having to adapt their code to either use case.
   #
-  INCLUDES DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/MeddySDKCLI"
+  INCLUDES DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}"
   # Copy over public headers.
-  FILE_SET meddysdkcli_public_headers DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/MeddySDKCLI"
+  FILE_SET meddysdkcli_public_headers DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}"
   )
 
 # Generate script that imports targets associated with our export.
 install(EXPORT MeddySDKCLIExport
-  FILE "MeddySDKCLIExport.cmake"
-  DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/MeddySDKCLI"
+  FILE "${PROJECT_NAME}Export.cmake"
+  DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}"
   )
 
 # Create a package version file for our export.
 include(CMakePackageConfigHelpers)
-write_basic_package_version_file("${CMAKE_CURRENT_BINARY_DIR}/MeddySDKCLIConfigVersion.cmake"
+write_basic_package_version_file("${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
   VERSION ${PROJECT_VERSION}
   COMPATIBILITY SameMajorVersion
   )
@@ -143,9 +143,9 @@ write_basic_package_version_file("${CMAKE_CURRENT_BINARY_DIR}/MeddySDKCLIConfigV
 # Copy any files for downstream usage to the install directory.
 install(
   FILES
-    "${CMAKE_CURRENT_SOURCE_DIR}/MeddySDKCLIConfig.cmake"
-    "${CMAKE_CURRENT_BINARY_DIR}/MeddySDKCLIConfigVersion.cmake"
-  DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/MeddySDKCLI"
+    "${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}Config.cmake"
+    "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
+  DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}"
   )
 
 # Set some simple values for CPack based on this current project. The default
