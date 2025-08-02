@@ -107,9 +107,9 @@ target_link_libraries(meddy
 
 include(GNUInstallDirs)
 
-# Associate our target with an export and set up installation.
+# Associate our targets with an export and specify how their files would be installed.
 install(TARGETS meddy
-  EXPORT MeddySDKCLIExport
+  EXPORT "${PROJECT_NAME}Export"
   LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
   ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
   RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
@@ -128,7 +128,7 @@ install(TARGETS meddy
   )
 
 # Generate script that imports targets associated with our export.
-install(EXPORT MeddySDKCLIExport
+install(EXPORT "${PROJECT_NAME}Export"
   FILE "${PROJECT_NAME}Export.cmake"
   DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}"
   )
