@@ -7,7 +7,7 @@
     },
     "configurePresets": [
         {
-            "name": "meddysdkcli-base",
+            "name": "base",
             "hidden": true,
             "binaryDir": "${sourceDir}/out/build/${presetName}",
             "installDir": "${sourceDir}/out/install/${presetName}"
@@ -90,7 +90,7 @@
             "name": "windows-x64-debug",
             "displayName": "Windows x64 Debug",
             "inherits": [
-                "meddysdkcli-base",
+                "base",
                 "windows-base",
                 "x64-base",
                 "debug-base"
@@ -100,7 +100,7 @@
             "name": "windows-x64-release",
             "displayName": "Windows x64 Release",
             "inherits": [
-                "meddysdkcli-base",
+                "base",
                 "windows-base",
                 "x64-base",
                 "release-base"
@@ -110,7 +110,7 @@
             "name": "windows-x86-debug",
             "displayName": "Windows x86 Debug",
             "inherits": [
-                "meddysdkcli-base",
+                "base",
                 "windows-base",
                 "x86-base",
                 "debug-base"
@@ -120,7 +120,7 @@
             "name": "windows-x86-release",
             "displayName": "Windows x86 Release",
             "inherits": [
-                "meddysdkcli-base",
+                "base",
                 "windows-base",
                 "x86-base",
                 "release-base"
@@ -130,7 +130,7 @@
             "name": "linux-debug",
             "displayName": "Linux Debug",
             "inherits": [
-                "meddysdkcli-base",
+                "base",
                 "linux-base",
                 "debug-base"
             ]
@@ -139,7 +139,7 @@
             "name": "linux-release",
             "displayName": "Linux Release",
             "inherits": [
-                "meddysdkcli-base",
+                "base",
                 "linux-base",
                 "release-base"
             ]
@@ -148,7 +148,7 @@
             "name": "macos-debug",
             "displayName": "macOS Debug",
             "inherits": [
-                "meddysdkcli-base",
+                "base",
                 "macos-base",
                 "debug-base"
             ]
@@ -157,7 +157,7 @@
             "name": "macos-release",
             "displayName": "macOS Release",
             "inherits": [
-                "meddysdkcli-base",
+                "base",
                 "macos-base",
                 "release-base"
             ]
@@ -207,7 +207,7 @@
     ],
     "packagePresets": [
         {
-            "name": "meddysdkcli-base",
+            "name": "base",
             "hidden": true,
             "configFile": "MeddySDKCLI/CPackConfig.cmake"
         },
@@ -222,7 +222,7 @@
         {
             "name": "windows-x64-debug-nsis",
             "inherits": [
-                "meddysdkcli-base",
+                "base",
                 "nsis-base"
             ],
             "displayName": "Windows x64 Debug - NSIS",
@@ -231,7 +231,7 @@
         {
             "name": "windows-x64-release-nsis",
             "inherits": [
-                "meddysdkcli-base",
+                "base",
                 "nsis-base"
             ],
             "displayName": "Windows x64 Release - NSIS",
