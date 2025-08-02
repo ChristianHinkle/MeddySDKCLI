@@ -16,20 +16,20 @@
         },
         {
             "name": "meddysdkcli-windows-x64-debug-nsis",
+            "displayName": "MeddySDKCLI - Windows x64 Debug - NSIS",
             "inherits": [
                 "meddysdkcli-base",
                 "nsis-base"
             ],
-            "displayName": "MeddySDKCLI - Windows x64 Debug - NSIS",
             "configurePreset": "windows-x64-debug"
         },
         {
             "name": "meddysdkcli-windows-x64-release-nsis",
+            "displayName": "MeddySDKCLI - Windows x64 Release - NSIS",
             "inherits": [
                 "meddysdkcli-base",
                 "nsis-base"
             ],
-            "displayName": "MeddySDKCLI - Windows x64 Release - NSIS",
             "configurePreset": "windows-x64-release"
         }
     ]
