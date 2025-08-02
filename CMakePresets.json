@@ -1,9 +1,9 @@
 {
     "version": 10,
     "cmakeMinimumRequired": {
-      "major": 4,
-      "minor": 0,
-      "patch": 0
+        "major": 4,
+        "minor": 0,
+        "patch": 0
     },
     "configurePresets": [
         {
@@ -57,54 +57,9 @@
             }
         },
         {
-            "name": "windows-x64-debug",
-            "displayName": "Windows x64 Debug",
-            "inherits": [
-              "meddysdkcli-base",
-              "windows-base",
-              "x64-base",
-              "debug-base"
-            ]
-        },
-        {
-            "name": "windows-x64-release",
-            "displayName": "Windows x64 Release",
-            "inherits": [
-              "meddysdkcli-base",
-              "windows-base",
-              "x64-base",
-              "release-base"
-            ]
-        },
-        {
-            "name": "windows-x86-debug",
-            "displayName": "Windows x86 Debug",
-            "inherits": [
-              "meddysdkcli-base",
-              "windows-base",
-              "x86-base",
-              "debug-base"
-            ]
-        },
-        {
-            "name": "windows-x86-release",
-            "displayName": "Windows x86 Release",
-            "inherits": [
-              "meddysdkcli-base",
-              "windows-base",
-              "x86-base",
-              "release-base"
-            ]
-        },
-        {
-            "name": "linux-debug",
-            "displayName": "Linux Debug",
+            "name": "linux-base",
+            "hidden": true,
             "generator": "Ninja",
-            "binaryDir": "${sourceDir}/out/build/${presetName}",
-            "installDir": "${sourceDir}/out/install/${presetName}",
-            "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Debug"
-            },
             "condition": {
                 "type": "equals",
                 "lhs": "${hostSystemName}",
@@ -117,14 +72,9 @@
             }
         },
         {
-            "name": "macos-debug",
-            "displayName": "macOS Debug",
+            "name": "macos-base",
+            "hidden": true,
             "generator": "Ninja",
-            "binaryDir": "${sourceDir}/out/build/${presetName}",
-            "installDir": "${sourceDir}/out/install/${presetName}",
-            "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Debug"
-            },
             "condition": {
                 "type": "equals",
                 "lhs": "${hostSystemName}",
@@ -135,41 +85,124 @@
                     "sourceDir": "$env{HOME}/.vs/$ms{projectDirName}"
                 }
             }
-        }
-    ],
-    "buildPresets": [
-        {
-            "name": "windows-base",
-            "hidden": true,
-            "condition": {
-                "type": "equals",
-                "lhs": "${hostSystemName}",
-                "rhs": "Windows"
-            }
         },
         {
             "name": "windows-x64-debug",
             "displayName": "Windows x64 Debug",
-            "inherits": "windows-base",
+            "inherits": [
+                "meddysdkcli-base",
+                "windows-base",
+                "x64-base",
+                "debug-base"
+            ]
+        },
+        {
+            "name": "windows-x64-release",
+            "displayName": "Windows x64 Release",
+            "inherits": [
+                "meddysdkcli-base",
+                "windows-base",
+                "x64-base",
+                "release-base"
+            ]
+        },
+        {
+            "name": "windows-x86-debug",
+            "displayName": "Windows x86 Debug",
+            "inherits": [
+                "meddysdkcli-base",
+                "windows-base",
+                "x86-base",
+                "debug-base"
+            ]
+        },
+        {
+            "name": "windows-x86-release",
+            "displayName": "Windows x86 Release",
+            "inherits": [
+                "meddysdkcli-base",
+                "windows-base",
+                "x86-base",
+                "release-base"
+            ]
+        },
+        {
+            "name": "linux-debug",
+            "displayName": "Linux Debug",
+            "inherits": [
+                "meddysdkcli-base",
+                "linux-base",
+                "debug-base"
+            ]
+        },
+        {
+            "name": "linux-release",
+            "displayName": "Linux Release",
+            "inherits": [
+                "meddysdkcli-base",
+                "linux-base",
+                "release-base"
+            ]
+        },
+        {
+            "name": "macos-debug",
+            "displayName": "macOS Debug",
+            "inherits": [
+                "meddysdkcli-base",
+                "macos-base",
+                "debug-base"
+            ]
+        },
+        {
+            "name": "macos-release",
+            "displayName": "macOS Release",
+            "inherits": [
+                "meddysdkcli-base",
+                "macos-base",
+                "release-base"
+            ]
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "windows-x64-debug",
+            "displayName": "Windows x64 Debug",
             "configurePreset": "windows-x64-debug"
         },
         {
             "name": "windows-x64-release",
             "displayName": "Windows x64 Release",
-            "inherits": "windows-base",
             "configurePreset": "windows-x64-release"
         },
         {
             "name": "windows-x86-debug",
             "displayName": "Windows x86 Debug",
-            "inherits": "windows-base",
             "configurePreset": "windows-x86-debug"
         },
         {
             "name": "windows-x86-release",
             "displayName": "Windows x86 Release",
-            "inherits": "windows-base",
             "configurePreset": "windows-x86-release"
+        },
+        {
+            "name": "linux-debug",
+            "displayName": "Linux Debug",
+            "configurePreset": "linux-debug"
+        },
+        {
+            "name": "linux-release",
+            "displayName": "Linux Release",
+            "configurePreset": "linux-release"
+        },
+        {
+            "name": "macos-debug",
+            "displayName": "macOS Debug",
+            "configurePreset": "macos-debug"
+        },
+        {
+            "name": "macos-release",
+            "displayName": "macOS Release",
+            "configurePreset": "macos-release"
         }
     ],
     "packagePresets": [
@@ -189,8 +222,8 @@
         {
             "name": "windows-x64-debug-nsis",
             "inherits": [
-              "meddysdkcli-base",
-              "nsis-base"
+                "meddysdkcli-base",
+                "nsis-base"
             ],
             "displayName": "Windows x64 Debug - NSIS",
             "configurePreset": "windows-x64-debug"
@@ -198,8 +231,8 @@
         {
             "name": "windows-x64-release-nsis",
             "inherits": [
-              "meddysdkcli-base",
-              "nsis-base"
+                "meddysdkcli-base",
+                "nsis-base"
             ],
             "displayName": "Windows x64 Release - NSIS",
             "configurePreset": "windows-x64-release"
