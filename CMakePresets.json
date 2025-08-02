@@ -12,7 +12,8 @@
         {
             "name": "meddysdkcli-base",
             "hidden": true,
-            "configFile": "MeddySDKCLI/CPackConfig.cmake"
+            "configFile": "MeddySDKCLI/CPackConfig.cmake",
+            "packageDirectory": "MeddySDKCLI/Packages"
         },
         {
             "name": "meddysdkcli-windows-x64-debug-nsis",
