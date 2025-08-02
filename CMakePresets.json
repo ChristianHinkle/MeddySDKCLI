@@ -23,8 +23,8 @@
             }
         },
         {
-            "name": "x64-debug",
-            "displayName": "x64 Debug",
+            "name": "windows-x64-debug",
+            "displayName": "Windows x64 Debug",
             "inherits": "windows-base",
             "architecture": {
                 "value": "x64",
@@ -35,16 +35,16 @@
             }
         },
         {
-            "name": "x64-release",
-            "displayName": "x64 Release",
-            "inherits": "x64-debug",
+            "name": "windows-x64-release",
+            "displayName": "Windows x64 Release",
+            "inherits": "windows-x64-debug",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release"
             }
         },
         {
-            "name": "x86-debug",
-            "displayName": "x86 Debug",
+            "name": "windows-x86-debug",
+            "displayName": "Windows x86 Debug",
             "inherits": "windows-base",
             "architecture": {
                 "value": "x86",
@@ -55,9 +55,9 @@
             }
         },
         {
-            "name": "x86-release",
-            "displayName": "x86 Release",
-            "inherits": "x86-debug",
+            "name": "windows-x86-release",
+            "displayName": "Windows x86 Release",
+            "inherits": "windows-x86-debug",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release"
             }
@@ -103,6 +103,41 @@
             }
         }
     ],
+    "buildPresets": [
+        {
+            "name": "windows-base",
+            "hidden": true,
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
+            }
+        },
+        {
+            "name": "windows-x64-debug",
+            "displayName": "Windows x64 Debug",
+            "inherits": "windows-base",
+            "configurePreset": "windows-x64-debug"
+        },
+        {
+            "name": "windows-x64-release",
+            "displayName": "Windows x64 Release",
+            "inherits": "windows-base",
+            "configurePreset": "windows-x64-release"
+        },
+        {
+            "name": "windows-x86-debug",
+            "displayName": "Windows x86 Debug",
+            "inherits": "windows-base",
+            "configurePreset": "windows-x86-debug"
+        },
+        {
+            "name": "windows-x86-release",
+            "displayName": "Windows x86 Release",
+            "inherits": "windows-base",
+            "configurePreset": "windows-x86-release"
+        }
+    ],
     "packagePresets": [
         {
             "name": "meddysdkcli-base",
@@ -110,25 +145,30 @@
             "configFile": "MeddySDKCLI/CPackConfig.cmake"
         },
         {
-            "name": "meddysdkcli-nsis-base",
+            "name": "nsis-base",
             "hidden": true,
-            "inherits": "meddysdkcli-base",
             "description": "Important: Make sure you modify your NSIS installation with the files from the \"strlen_8192\" version before running CPack! Or else the installer will fail to modify the PATH env var for most users, because variables in NSIS cannot exceed 1024 characters by default, and PATH env vars tend to be very lengthy.",
             "generators": [
                 "NSIS"
             ]
         },
         {
-            "name": "meddysdkcli-nsis-x64-debug",
-            "inherits": "meddysdkcli-nsis-base",
-            "displayName": "MeddySDKCLI (NSIS) (x64 Debug)",
-            "configurePreset": "x64-debug"
+            "name": "windows-x64-debug-nsis",
+            "inherits": [
+              "meddysdkcli-base",
+              "nsis-base"
+            ],
+            "displayName": "Windows x64 Debug - NSIS",
+            "configurePreset": "windows-x64-debug"
         },
         {
-            "name": "meddysdkcli-nsis-x64-release",
-            "inherits": "meddysdkcli-nsis-base",
-            "displayName": "MeddySDKCLI (NSIS) (x64 Release)",
-            "configurePreset": "x64-release"
+            "name": "windows-x64-release-nsis",
+            "inherits": [
+              "meddysdkcli-base",
+              "nsis-base"
+            ],
+            "displayName": "Windows x64 Release - NSIS",
+            "configurePreset": "windows-x64-release"
         }
     ]
 }
