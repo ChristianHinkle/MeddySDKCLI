@@ -10,8 +10,8 @@ project(MeddySDKCLI
   )
 
 # Tell CMake where our cmake scripts ("modules") are.
-list(APPEND CMAKE_MODULE_PATH "${MeddySDKCLI_SOURCE_DIR}/CMake/Modules")
-list(APPEND CMAKE_MODULE_PATH "${MeddySDKCLI_SOURCE_DIR}/CMake/Modules/CPack")
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake/Modules")
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake/Modules/CPack")
 
 #
 # Add targets.
@@ -66,12 +66,12 @@ target_sources(meddy
       TYPE HEADERS
       BASE_DIRS
         # Base directory of public headers.
-        "${MeddySDKCLI_SOURCE_DIR}/Source/Public"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Source/Public"
         # Base directory of generated headers.
         "${CMAKE_CURRENT_BINARY_DIR}"
       FILES
         # Add all public header files.
-        "${MeddySDKCLI_SOURCE_DIR}/Source/Public/Main.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Source/Public/Main.h"
   PRIVATE
     FILE_SET meddysdkcli_private_headers
       TYPE HEADERS
@@ -83,7 +83,7 @@ target_sources(meddy
         # cpp include statements, you have to type "Private/" to access the non-public headers. This
         # makes it obvious for programmers when a header shouldn't be included in public files.
         #
-        "${MeddySDKCLI_SOURCE_DIR}/Source"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Source"
       FILES
         # Add all private header files.
   )
@@ -91,7 +91,7 @@ target_sources(meddy
 # Add all source files.
 target_sources(meddy
   PRIVATE
-    "${MeddySDKCLI_SOURCE_DIR}/Source/Private/Main.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/Source/Private/Main.cpp"
   )
 
 # Get the MeddySDK_Meddyproject export. This gives us its imported targets.
@@ -136,14 +136,14 @@ install(EXPORT MeddySDKCLIExport
 # Create a package version file for our export.
 include(CMakePackageConfigHelpers)
 write_basic_package_version_file("${CMAKE_CURRENT_BINARY_DIR}/MeddySDKCLIConfigVersion.cmake"
-  VERSION ${MeddySDKCLI_VERSION}
+  VERSION ${PROJECT_VERSION}
   COMPATIBILITY SameMajorVersion
   )
 
 # Copy any files for downstream usage to the install directory.
 install(
   FILES
-    "${MeddySDKCLI_SOURCE_DIR}/MeddySDKCLIConfig.cmake"
+    "${CMAKE_CURRENT_SOURCE_DIR}/MeddySDKCLIConfig.cmake"
     "${CMAKE_CURRENT_BINARY_DIR}/MeddySDKCLIConfigVersion.cmake"
   DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/MeddySDKCLI"
   )
