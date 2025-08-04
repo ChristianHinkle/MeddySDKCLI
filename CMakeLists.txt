@@ -20,8 +20,11 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake/Modules/CPack")
 # file names not be specific enough. E.g., for the DAM library of MeddySDK, we want its library file to be named
 # something like "MeddySDK_DAM.lib" instead of just "DAM.lib" - because that would be super vague.
 #
+# The name you pass in here will be the name of the output binary file. It's okay to give special name here if that's what
+# you want your binary file to be called. E.g., for MeddySDKCLI, we actually name the executable file "meddy" for our
+# desired command line format.
+#
 
-# Name the executable "meddy" (instead of "MeddySDKCLI") for our desired command name in the command line.
 add_executable(meddy)
 
 #
