@@ -2,33 +2,169 @@
 
 #include <iostream>
 #include <string_view>
+#include <filesystem>
+#include "Meddyproject.h"
+#include "FilesystemUtils.h"
+#include <utility>
 
+namespace
+{
+    template <bool shouldFlush = true>
+    void DumpHelpStdOutput();
+}
+
+// TODO @Christian: Dispatch commands in some kind of pipeline system, rather than using
+// many hard-coded if statements in this main function.
 int main(int argc, char** argv)
 {
+    std::cout << '\n';
+
     if (argc <= 1)
     {
-        std::cout << "usage: meddy [--help]" << '\n';
+        std::cout << "try: meddy --help" << '\n';
+        std::cout << '\n';
         std::cout.flush();
         return 0;
     }
 
-    if (argc == 2)
-    {
-        const std::string_view arg = argv[1];
+    const std::string_view arg1st = argv[1];
 
-        if (arg == "--help")
+    if (arg1st == "project")
+    {
+        if (argc <= 2)
         {
-            std::cout << "There is nothing so far." << '\n';
+            std::cout << "meddy: '" << arg1st << "' requires arguments." << '\n';
+            std::cout << '\n';
+            std::cout << "Possible commands" << '\n';
+            std::cout << "  meddy project new <project-root-dir>" << '\n';
+            std::cout << '\n';
             std::cout.flush();
             return 0;
         }
 
-        std::cout << "meddy: '" << arg << "' is not a meddy command. See 'meddy --help'." << '\n';
+        const std::string_view arg2nd = argv[2];
+        if (arg2nd == "new")
+        {
+            if (argc <= 3)
+            {
+                std::cout << "meddy: '" << arg1st << " " << arg2nd << "' requires arguments." << '\n';
+                std::cout << '\n';
+                std::cout << "Possible commands" << '\n';
+                std::cout << "  meddy project new <project-root-dir>" << '\n';
+                std::cout << '\n';
+                std::cout.flush();
+                return 0;
+            }
+
+            // TODO: Error when extra args are given.
+
+            const std::string_view arg3rd = argv[3];
+            std::filesystem::path projectRootPath = arg3rd;
+
+            MeddySDK::Meddyproject::UncertainProjectCreationResult result =
+                MeddySDK::Meddyproject::TryCreateNewProject(std::move(projectRootPath));
+
+            std::filesystem::path projectRootPathAbsolute =  std::filesystem::absolute(arg3rd);
+
+            MeddySDK::Meddyproject::CharBufferString<char, 2048> projectRootPathAbsoluteCharBuffer =
+                MeddySDK::Meddyproject::FilesystemUtils::ConstructCrossPlatformPathCharacterBuffer<2048, char>(
+                    projectRootPathAbsolute);
+
+            std::string_view projectRootPathAbsoluteString = projectRootPathAbsoluteCharBuffer.GetStringView();
+
+            switch (result)
+            {
+            case MeddySDK::Meddyproject::UncertainProjectCreationResult::Failed_ValidProjectAlreadyExists:
+                std::cout << "error: \"" << projectRootPathAbsoluteString << "\" is already a meddyproject." << '\n';
+                std::cout << '\n';
+                std::cout.flush();
+                return 0;
+            case MeddySDK::Meddyproject::UncertainProjectCreationResult::Failed_ProjectRootIsNonDirectory:
+                std::cout << "error: \"" << projectRootPathAbsoluteString << "\" is not a directory." << '\n';
+                std::cout << '\n';
+                std::cout.flush();
+                return 0;
+            case MeddySDK::Meddyproject::UncertainProjectCreationResult::Failed_ProjectRootDoesNotExist:
+                std::cout << "error: \"" << projectRootPathAbsoluteString << "\" is not an existing directory." << '\n';
+                std::cout << '\n';
+                std::cout.flush();
+                return 0;
+            case MeddySDK::Meddyproject::UncertainProjectCreationResult::Failed_DotMeddyprojectAlreadyExists:
+                std::cout << "error: \"" << projectRootPathAbsoluteString << "\" has an existing directory named \"" MEDDYSDK_MEDDYPROJECT_DOT_MEDDYPROJECT_STRING_LITERAL "\" which is preventing this operation." << '\n';
+                std::cout << '\n';
+                std::cout.flush();
+                return 0;
+            case MeddySDK::Meddyproject::UncertainProjectCreationResult::Failed_DotMeddyprojectAlreadyExistsAndIsNonDirectory:
+                std::cout << "error: \"" << projectRootPathAbsoluteString << "\" has an existing file named \"" MEDDYSDK_MEDDYPROJECT_DOT_MEDDYPROJECT_STRING_LITERAL "\" which is preventing this operation." << '\n';
+                std::cout << '\n';
+                std::cout.flush();
+                return 0;
+            case MeddySDK::Meddyproject::UncertainProjectCreationResult::Failed_FilesystemFailedToCreateDotMeddyproject:
+                std::cout << "error: Filesystem failed to create the \"" MEDDYSDK_MEDDYPROJECT_DOT_MEDDYPROJECT_STRING_LITERAL "\"." << '\n';
+                std::cout << '\n';
+                std::cout.flush();
+                return 0;
+            case MeddySDK::Meddyproject::UncertainProjectCreationResult::Failed_FilesystemFailedToCreateManifestFile:
+                std::cout << "error: Filesystem failed to create the \"" MEDDYSDK_MEDDYPROJECT_MANIFEST_FILENAME_STRING_LITERAL "\"." << '\n';
+                std::cout << '\n';
+                std::cout.flush();
+                return 0;
+            }
+
+            std::cout << "Successfully created project files. " << projectRootPathAbsolute.filename() << " is now a meddyproject." << '\n';
+            std::cout << '\n';
+            std::cout.flush();
+
+            return 0;
+        }
+
+        std::cout << "meddy: '" << arg2nd << "' is not a " << arg1st << " command." << '\n';
+        std::cout << '\n';
+        std::cout << "Possible commands" << '\n';
+        std::cout << "  meddy project new <project-root-dir>" << '\n';
+        std::cout << '\n';
         std::cout.flush();
         return 0;
     }
 
-    std::cout << "meddy: What is even that?" << '\n';
+    if (arg1st == "--help")
+    {
+        // TODO: Error when extra args are given.
+        DumpHelpStdOutput();
+        std::cout << '\n';
+        return 0;
+    }
+
+    if (arg1st == "--version")
+    {
+        // TODO: Error when extra args are given.
+        std::cout << "TODO: Get ${PROJECT_VERSION} from CMake-generated header file." << '\n';
+        std::cout << '\n';
+        std::cout.flush();
+        return 0;
+    }
+
+    std::cout << "meddy: '" << arg1st << "' is not a meddy command. See 'meddy --help'." << '\n';
+    std::cout << '\n';
     std::cout.flush();
     return 0;
+}
+
+namespace
+{
+    template <bool shouldFlush>
+    void DumpHelpStdOutput()
+    {
+        std::cout << "usage: meddy <command> [<args>]" << '\n';
+        std::cout << '\n';
+        std::cout << "Here are the basic meddy commands:" << '\n';
+        std::cout << '\n';
+        std::cout << "Create a project" << '\n';
+        std::cout << "  meddy project new <project-root-dir>" << '\n';
+
+        if constexpr (shouldFlush)
+        {
+            std::cout.flush();
+        }
+    }
 }
