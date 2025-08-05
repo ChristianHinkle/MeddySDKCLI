@@ -84,7 +84,6 @@ target_sources(meddy
         "${CMAKE_CURRENT_BINARY_DIR}"
       FILES
         # Add all public header files.
-        "${CMAKE_CURRENT_SOURCE_DIR}/Source/Public/Main.h"
   PRIVATE
     FILE_SET meddysdkcli_private_headers
       TYPE HEADERS
