@@ -29,18 +29,25 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake/Modules")
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake/Modules/CPack")
 
 #
-# Add targets.
+# Create targets.
 #
-# We namespace target names using underscore characters "_". Not namespacing your target names can result in their
-# file names not be specific enough. E.g., for the DAM library of MeddySDK, we want its library file to be named
-# something like "MeddySDK_DAM.lib" instead of just "DAM.lib" - because that would be super vague.
-#
-# The name you pass in here will be the name of the output binary file. It's okay to give special name here if that's what
-# you want your binary file to be called. E.g., for MeddySDKCLI, we actually name the executable file "meddy" for our
-# desired command line format.
+# We namespace target names using underscore characters "_". Namespacing helps avoid ambiguity. E.g., for
+# the DAM library of MeddySDK, we name it "MeddySDK_DAM" instead of just "DAM", because that would be very vague.
 #
 
-add_executable(meddy)
+add_executable(MeddySDKCLI)
+
+#
+# Set output names of our targets.
+#
+# This determines the name of the binary files generated for the target. The name may differ from the actual
+# target name. E.g., for MeddySDKCLI, we name its executable file "meddy" to suit our desired command line usage.
+#
+
+set_target_properties(MeddySDKCLI
+  PROPERTIES
+    OUTPUT_NAME "meddy"
+  )
 
 #
 # Add alias targets.
@@ -57,10 +64,10 @@ add_executable(meddy)
 # `FetchContent_Declare()`.
 #
 
-add_executable(::MeddySDKCLI ALIAS meddy)
+add_executable(::MeddySDKCLI ALIAS MeddySDKCLI)
 
 # List out required language features.
-target_compile_features(meddy
+target_compile_features(MeddySDKCLI
   PUBLIC
     cxx_std_20
   )
@@ -78,7 +85,7 @@ target_compile_features(meddy
 #
 # A nice benefit of listing all header files is that they can be easily-discoverable by IDEs.
 #
-target_sources(meddy
+target_sources(MeddySDKCLI
   PUBLIC
     FILE_SET meddysdkcli_public_headers
       TYPE HEADERS
@@ -106,7 +113,7 @@ target_sources(meddy
   )
 
 # Add all source files.
-target_sources(meddy
+target_sources(MeddySDKCLI
   PRIVATE
     "${CMAKE_CURRENT_SOURCE_DIR}/Source/Private/Main.cpp"
   )
@@ -115,7 +122,7 @@ target_sources(meddy
 find_package(MeddySDK_Meddyproject 0 CONFIG REQUIRED)
 
 # Add dependencies to other targets.
-target_link_libraries(meddy
+target_link_libraries(MeddySDKCLI
   PRIVATE
     # Only depend on imported targets if we are BUILD_LOCAL_INTERFACE because we don't
     # want to have to put them in the export.
@@ -125,7 +132,7 @@ target_link_libraries(meddy
 include(GNUInstallDirs)
 
 # Associate our targets with an export and specify how their files would be installed.
-install(TARGETS meddy
+install(TARGETS MeddySDKCLI
   EXPORT "${PROJECT_NAME}Export"
   LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
   ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
