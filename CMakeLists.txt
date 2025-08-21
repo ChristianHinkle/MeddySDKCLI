@@ -118,15 +118,18 @@ target_sources(MeddySDKCLI
     "${CMAKE_CURRENT_SOURCE_DIR}/Source/Private/Main.cpp"
   )
 
-# Get the MeddySDK_Meddyproject export. This gives us its imported targets.
-find_package(MeddySDK_Meddyproject 0 CONFIG REQUIRED)
+# Get any package exports which we depend on. This gives us imported targets for them.
+
+find_package(MeddySDK_Meddyproject 0 CONFIG REQUIRED
+  COMPONENTS Static
+  )
 
 # Add dependencies to other targets.
 target_link_libraries(MeddySDKCLI
   PRIVATE
-    # Only depend on imported targets if we are BUILD_LOCAL_INTERFACE because we don't
-    # want to have to put them in the export.
-    $<BUILD_LOCAL_INTERFACE:MeddySDK::Meddyproject> # Add the imported MeddySDK::Meddyproject target as a dependency.
+    # Add any imported targets as dependencies. It's important to only depend on imported targets if we
+    # are BUILD_LOCAL_INTERFACE, because we don't want them to get mixed into our export.
+    $<BUILD_LOCAL_INTERFACE:MeddySDK::Meddyproject::Static>
   )
 
 include(GNUInstallDirs)
