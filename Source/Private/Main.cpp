@@ -3,8 +3,8 @@
 #include <iostream>
 #include <string_view>
 #include <filesystem>
-#include "Meddyproject.h"
-#include "FilesystemUtils.h"
+#include <MeddySDK_Meddyproject/Meddyproject.h>
+#include <MeddySDK_Meddyproject/FilesystemUtils.h>
 #include <utility>
 
 namespace
