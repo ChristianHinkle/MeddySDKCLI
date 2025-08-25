@@ -7,8 +7,8 @@ project(MeddySDKCLI_Tests
   LANGUAGES CXX
   )
 
-# Note that we do not "find package" for our parent project's export. We don't need to since we are assuming that
-# our parent project is using `add_subdirectory` on us. That means that we are being processed in the same
-# configuration step as them. The targets that we reference in `target_link_libraries` commands don't even need
-# to exist at this point because CMake only validates existence of the targets at the end of the entire configuration
-# process.
+# Note that we do not "find package" for our parent project. We don't need to since we are built in the same
+# cmake invocation as the it. That means we're being processed during the same configuration step as them, which
+# means we'll have all their targets. Also, the targets that we reference in `target_link_libraries` commands don't
+# even need to exist yet because CMake only validates the existence of targets at the end of the entire
+# configuration process.

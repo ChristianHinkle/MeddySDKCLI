@@ -9,150 +9,44 @@ project(MeddySDKCLI
   LANGUAGES CXX
   )
 
+# Tell CMake where our cmake scripts ("modules") are.
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake/Modules")
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake/Modules/CPack")
+
 # Set up testing. Defines `BUILD_TESTING` which is ON by default. This must be called by the top-level project only.
 if(PROJECT_IS_TOP_LEVEL)
   include(CTest)
 endif()
 
-# Conditionally enable our "tests" subproject.
+include(FetchContent)
+
+# Declare subprojects.
+
+FetchContent_Declare(MeddySDKCLI_Source
+  SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/Source"
+  )
+
+FetchContent_Declare(MeddySDKCLI_Executable
+  SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/Executable"
+  )
+
 if(BUILD_TESTING)
-  # The reason we're okay with using `add_subdirectory` for this instead of a more-sophisticated `FetchContent` setup is
-  # because we're fairly certain that we are the only project that would want to use this testing version of our project. If we
-  # want to change this, we could structure both the test and non-test version of this project into two different subdirectories,
-  # which would be tied together by `FetchContent` from a parent project. This would allow one to find the other in a
-  # decoupled manner.
-  add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/Tests")
+  FetchContent_Declare(MeddySDKCLI_Tests
+    SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/Tests"
+    )
 endif()
 
-# Tell CMake where our cmake scripts ("modules") are.
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake/Modules")
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake/Modules/CPack")
+# Add subprojects.
 
-#
-# Create targets.
-#
-# We namespace target names using underscore characters "_". Namespacing helps avoid ambiguity. E.g., for
-# the DAM library of MeddySDK, we name it "MeddySDK_DAM" instead of just "DAM", because that would be very vague.
-#
+FetchContent_MakeAvailable(MeddySDKCLI_Source)
 
-add_executable(MeddySDKCLI)
+FetchContent_MakeAvailable(MeddySDKCLI_Executable)
 
-#
-# Set output names of our targets.
-#
-# This determines the name of the binary files generated for the target. The name may differ from the actual
-# target name. E.g., for MeddySDKCLI, we name its executable file "meddy" to suit our desired command line usage.
-#
-
-set_target_properties(MeddySDKCLI
-  PROPERTIES
-    OUTPUT_NAME "meddy"
-  )
-
-#
-# Add alias targets.
-#
-# We name these with special characters that filenames can't have. We use these aliases instead of the direct
-# target names where possible so that they can't be be interpreted as filenames.
-#
-# It's conventional to use "::" in these names, like namespaces. If a target doesn't have anything to namespace in its
-# name then just prepend "::" to it, analogous to how we indicate global scope in cpp.
-#
-# The aliases set up here get used by build interface users. Make sure the same aliases are also set up for install
-# interface users somewhere else. We do that in the export's config file. It's important to make sure the names are
-# the same in both cases for consistency. Namely, so that build interface users can use `OVERRIDE_FIND_PACKAGE` with
-# `FetchContent_Declare()`.
-#
-
-add_executable(::MeddySDKCLI ALIAS MeddySDKCLI)
-
-# List out required language features.
-target_compile_features(MeddySDKCLI
-  PUBLIC
-    cxx_std_20
-  )
-
-#
-# Add all header files and set up their include directories.
-#
-# The `BASE_DIRS` of file sets automatically get added to the target's include
-# directories. So we don't use the `target_include_directories()` command anymore
-# because that would be redundant.
-#
-# The file set of public headers is important because we use it to install
-# them for install interface users. It's very important to list out all public headers
-# in this file set so that install interface users have them.
-#
-# A nice benefit of listing all header files is that they can be easily-discoverable by IDEs.
-#
-target_sources(MeddySDKCLI
-  PUBLIC
-    FILE_SET meddysdkcli_public_headers
-      TYPE HEADERS
-      BASE_DIRS
-        # Base directory of public headers.
-        "${CMAKE_CURRENT_SOURCE_DIR}/Source/Public"
-        # Base directory of generated headers.
-        "${CMAKE_CURRENT_BINARY_DIR}"
-      FILES
-        # Add all public header files.
-  PRIVATE
-    FILE_SET meddysdkcli_private_headers
-      TYPE HEADERS
-      BASE_DIRS
-        #
-        # Base directory of private headers.
-        #
-        # It's nice to leave the "Private" directory out of this base include path so that, for
-        # cpp include statements, you have to type "Private/" to access the non-public headers. This
-        # makes it obvious for programmers when a header shouldn't be included in public files.
-        #
-        "${CMAKE_CURRENT_SOURCE_DIR}/Source"
-      FILES
-        # Add all private header files.
-  )
-
-# Add all source files.
-target_sources(MeddySDKCLI
-  PRIVATE
-    "${CMAKE_CURRENT_SOURCE_DIR}/Source/Private/Main.cpp"
-  )
-
-# Get any package exports which we depend on. This gives us imported targets for them.
-
-find_package(MeddySDK_Meddyproject 0 CONFIG REQUIRED
-  COMPONENTS Static
-  )
-
-# Add dependencies to other targets.
-target_link_libraries(MeddySDKCLI
-  PRIVATE
-    # Add any imported targets as dependencies. It's important to only depend on imported targets if we
-    # are BUILD_LOCAL_INTERFACE, because we don't want them to get mixed into our export.
-    $<BUILD_LOCAL_INTERFACE:MeddySDK::Meddyproject::Static>
-  )
+if(BUILD_TESTING)
+  FetchContent_MakeAvailable(MeddySDKCLI_Tests)
+endif()
 
 include(GNUInstallDirs)
-
-# Associate our targets with an export and specify how their files would be installed.
-install(TARGETS MeddySDKCLI
-  EXPORT "${PROJECT_NAME}Export"
-  LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
-  ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
-  RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
-  #
-  # Add to interface include directories.
-  #
-  # Note: We take care of install-specific include directories here instead of `target_include_directories()`.
-  #
-  # Note: It's important to make sure cpp include statements of public headers are compatible between
-  # install interface users and build interface users. E.g., a user's include statements should work for
-  # both packaged library usage and subproject library usage, without having to adapt their code to either use case.
-  #
-  INCLUDES DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}"
-  # Copy over public headers.
-  FILE_SET meddysdkcli_public_headers DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}"
-  )
 
 # Generate script that imports targets associated with our export.
 install(EXPORT "${PROJECT_NAME}Export"
@@ -170,7 +64,7 @@ write_basic_package_version_file("${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Con
 # Copy any files for downstream usage to the install directory.
 install(
   FILES
-    "${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}Config.cmake"
+    "${CMAKE_CURRENT_SOURCE_DIR}/CMake/${PROJECT_NAME}Config.cmake"
     "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
   DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}"
   )

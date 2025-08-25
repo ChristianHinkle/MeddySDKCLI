@@ -15,4 +15,4 @@ include("${CMAKE_CURRENT_LIST_DIR}/MeddySDKCLIExport.cmake")
 # interface users can use `OVERRIDE_FIND_PACKAGE` with `FetchContent_Declare()`.
 #
 
-add_executable(::MeddySDKCLI ALIAS MeddySDKCLI)
+add_executable(MeddySDKCLI::Executable ALIAS MeddySDKCLI_Executable)
