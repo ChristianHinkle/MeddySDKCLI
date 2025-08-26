@@ -14,7 +14,7 @@ MeddySDKCLI
 
 Does it install: Yes, it's installed as the `MeddySDKCLI` package and export.
 
-### Source
+### Source/
 
 Provides the target: `MeddySDKCLI::Source` (interface library).
 
@@ -22,13 +22,13 @@ Does it install: No, but it's a cool idea. We should try supporting this in the 
 
 What it is: Holds all the private source files to compile.
 
-### Executable
+### Executable/
 
 Provides the target: `MeddySDKCLI::Executable` (executable).
 
 Does it install: Yes, it's installed as the `Executable` component.
 
-### Tests
+### Tests/
 
 Does it install: No, but we should support this so that dependent projects can use our test code to help with writing their own tests.
 
