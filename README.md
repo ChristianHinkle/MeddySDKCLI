@@ -10,6 +10,30 @@ For a superproject with all components Meddy has to offer, see [MeddySDK](https:
 MeddySDKCLI
 - [MeddySDK_Meddyproject](https://github.com/ChristianHinko/MeddySDK_Meddyproject)
 
+## Project Structure 📂
+
+Does it install: Yes, it's installed as the `MeddySDKCLI` package and export.
+
+### Source
+
+Provides the target: `MeddySDKCLI::Source` (interface library).
+
+Does it install: No, but it's a cool idea. We should try supporting this in the future. It would have to install all of the source files.
+
+What it is: Holds all the private source files to compile.
+
+### Executable
+
+Provides the target: `MeddySDKCLI::Executable` (executable).
+
+Does it install: Yes, it's installed as the `Executable` component.
+
+### Tests
+
+Does it install: No, but we should support this so that dependent projects can use our test code to help with writing their own tests.
+
+What it is: Provides automated tests. See "Test Instructions" for how to use.
+
 ## Build System ⌨
 
 Built with CMake - cross-platform, standardized, and IDE-friendly.
