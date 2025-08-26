@@ -72,5 +72,8 @@ install(TARGETS MeddySDKCLI_Executable
   COMPONENT "Executable"
   LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}/${PROJECT_NAME}"
   ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}/${PROJECT_NAME}"
-  RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}/${PROJECT_NAME}"
+  # Install our runtime executable in the base "bin" dir, since that's where our PATH environment variable looks
+  # at when installed from NSIS. If we put our executable in a subdir of this, it won't be found when executing
+  # the command.
+  RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
   )
