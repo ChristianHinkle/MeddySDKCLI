@@ -7,6 +7,8 @@ project(MeddySDKCLI_Executable
   LANGUAGES CXX
   )
 
+include(GNUInstallDirs)
+
 #
 # Create targets.
 #
@@ -63,8 +65,6 @@ target_link_libraries(MeddySDKCLI_Executable
   PRIVATE
     $<BUILD_LOCAL_INTERFACE:MeddySDKCLI::Source>
   )
-
-include(GNUInstallDirs)
 
 # Associate our targets with an export and specify how their files would be installed.
 install(TARGETS MeddySDKCLI_Executable
