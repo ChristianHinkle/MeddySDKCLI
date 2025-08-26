@@ -12,6 +12,81 @@
     "include": [
         "${sourceDir}/CMake/CMakePresets/GenericPresets.json"
     ],
+    "testPresets": [
+        {
+            "name": "meddysdkcli-base",
+            "hidden": true,
+            "filter": {
+                "include": {
+                    "name": "MeddySDKCLI."
+                }
+            }
+        },
+        {
+            "name": "meddysdkcli-windows-x64-debug",
+            "displayName": "MeddySDKCLI - Windows x64 Debug",
+            "inherits": [
+                "meddysdkcli-base",
+                "windows-x64-debug"
+            ]
+        },
+        {
+            "name": "meddysdkcli-windows-x64-release",
+            "displayName": "MeddySDKCLI - Windows x64 Release",
+            "inherits": [
+                "meddysdkcli-base",
+                "windows-x64-release"
+            ]
+        },
+        {
+            "name": "meddysdkcli-windows-x86-debug",
+            "displayName": "MeddySDKCLI - Windows x86 Debug",
+            "inherits": [
+                "meddysdkcli-base",
+                "windows-x86-debug"
+            ]
+        },
+        {
+            "name": "meddysdkcli-windows-x86-release",
+            "displayName": "MeddySDKCLI - Windows x86 Release",
+            "inherits": [
+                "meddysdkcli-base",
+                "windows-x86-release"
+            ]
+        },
+        {
+            "name": "meddysdkcli-linux-debug",
+            "displayName": "MeddySDKCLI - Linux Debug",
+            "inherits": [
+                "meddysdkcli-base",
+                "linux-debug"
+            ]
+        },
+        {
+            "name": "meddysdkcli-linux-release",
+            "displayName": "MeddySDKCLI - Linux Release",
+            "inherits": [
+                "meddysdkcli-base",
+                "linux-release"
+            ]
+        },
+        {
+            "name": "meddysdkcli-macos-debug",
+            "displayName": "MeddySDKCLI - macOS Debug",
+            "inherits": [
+                "meddysdkcli-base",
+                "macos-debug"
+            ]
+        },
+        {
+            "name": "meddysdkcli-macos-release",
+            "displayName": "MeddySDKCLI - macOS Release",
+            "inherits": [
+                "meddysdkcli-base",
+                "macos-release"
+            ]
+        }
+    ],
     "packagePresets": [
         {
             "name": "meddysdkcli-base",
