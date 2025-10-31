@@ -2,7 +2,16 @@
 
 cmake_minimum_required(VERSION 4.0)
 
-project(MeddySDKCLI_Executable
+# Write out the main project name here, in one place, to make renaming easier. This is mainly used by our
+# boilerplate code. There may be other mentions of the project's name mixed in certain places of this file, so
+# don't rely on these variables alone for renaming.
+SET(MY_BASE_PROJECT_NAME_FULL "MeddySDKCLI")
+string(TOLOWER ${MY_BASE_PROJECT_NAME_FULL} MY_BASE_PROJECT_NAME_FULL_LOWERCASE)
+string(TOUPPER ${MY_BASE_PROJECT_NAME_FULL} MY_BASE_PROJECT_NAME_FULL_UPPERCASE)
+SET(MY_BASE_PROJECT_NAME_NAMESPACE "")
+SET(MY_BASE_PROJECT_NAME_LEAFNAME "MeddySDKCLI")
+
+project(${MY_BASE_PROJECT_NAME_FULL}_Executable
   VERSION 0.1.0
   LANGUAGES CXX
   )
@@ -16,7 +25,7 @@ include(GNUInstallDirs)
 # the DAM library of MeddySDK, we name it "MeddySDK_DAM" instead of just "DAM", because that would be very vague.
 #
 
-add_executable(MeddySDKCLI_Executable)
+add_executable(${MY_BASE_PROJECT_NAME_FULL}_Executable)
 
 #
 # Set output names of our targets.
@@ -25,7 +34,7 @@ add_executable(MeddySDKCLI_Executable)
 # target name. E.g., for MeddySDKCLI, we name its executable file "meddy" to suit our desired command line usage.
 #
 
-set_target_properties(MeddySDKCLI_Executable
+set_target_properties(${MY_BASE_PROJECT_NAME_FULL}_Executable
   PROPERTIES
     OUTPUT_NAME "meddy"
   )
@@ -45,10 +54,10 @@ set_target_properties(MeddySDKCLI_Executable
 # `FetchContent_Declare()`.
 #
 
-add_executable(MeddySDKCLI::Executable ALIAS MeddySDKCLI_Executable)
+add_executable(${MY_BASE_PROJECT_NAME_NAMESPACE}::${MY_BASE_PROJECT_NAME_LEAFNAME}::Executable ALIAS ${MY_BASE_PROJECT_NAME_FULL}_Executable)
 
 # List out required language features.
-target_compile_features(MeddySDKCLI_Executable
+target_compile_features(${MY_BASE_PROJECT_NAME_FULL}_Executable
   PUBLIC
     cxx_std_20
   )
@@ -61,14 +70,14 @@ target_compile_features(MeddySDKCLI_Executable
 
 # Add dependencies to other targets. For imported targets, it's important to only depend on them if we
 # are BUILD_LOCAL_INTERFACE, because we don't want them to get mixed into our export.
-target_link_libraries(MeddySDKCLI_Executable
+target_link_libraries(${MY_BASE_PROJECT_NAME_FULL}_Executable
   PRIVATE
-    $<BUILD_LOCAL_INTERFACE:MeddySDKCLI::Source>
+    $<BUILD_LOCAL_INTERFACE:${MY_BASE_PROJECT_NAME_NAMESPACE}::${MY_BASE_PROJECT_NAME_LEAFNAME}::Source>
   )
 
 # Associate our targets with an export and specify how their files would be installed.
-install(TARGETS MeddySDKCLI_Executable
-  EXPORT "MeddySDKCLIExport"
+install(TARGETS ${MY_BASE_PROJECT_NAME_FULL}_Executable
+  EXPORT "${MY_BASE_PROJECT_NAME_FULL}Export"
   COMPONENT "Executable"
   LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}/${PROJECT_NAME}"
   ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}/${PROJECT_NAME}"

@@ -2,7 +2,16 @@
 
 cmake_minimum_required(VERSION 4.0)
 
-project(MeddySDKCLI
+# Write out the main project name here, in one place, to make renaming easier. This is mainly used by our
+# boilerplate code. There may be other mentions of the project's name mixed in certain places of this file, so
+# don't rely on these variables alone for renaming.
+SET(MY_BASE_PROJECT_NAME_FULL "MeddySDKCLI")
+string(TOLOWER ${MY_BASE_PROJECT_NAME_FULL} MY_BASE_PROJECT_NAME_FULL_LOWERCASE)
+string(TOUPPER ${MY_BASE_PROJECT_NAME_FULL} MY_BASE_PROJECT_NAME_FULL_UPPERCASE)
+SET(MY_BASE_PROJECT_NAME_NAMESPACE "")
+SET(MY_BASE_PROJECT_NAME_LEAFNAME "MeddySDKCLI")
+
+project(${MY_BASE_PROJECT_NAME_FULL}
   VERSION 0.1.0
   DESCRIPTION ""
   HOMEPAGE_URL "https://github.com/ChristianHinko/MeddySDKCLI"
@@ -24,28 +33,28 @@ include(CMakePackageConfigHelpers)
 
 # Declare subprojects.
 
-FetchContent_Declare(MeddySDKCLI_Source
+FetchContent_Declare(${MY_BASE_PROJECT_NAME_FULL}_Source
   SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/Source"
   )
 
-FetchContent_Declare(MeddySDKCLI_Executable
+FetchContent_Declare(${MY_BASE_PROJECT_NAME_FULL}_Executable
   SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/Executable"
   )
 
 if(BUILD_TESTING)
-  FetchContent_Declare(MeddySDKCLI_Tests
+  FetchContent_Declare(${MY_BASE_PROJECT_NAME_FULL}_Tests
     SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/Tests"
     )
 endif()
 
 # Add subprojects.
 
-FetchContent_MakeAvailable(MeddySDKCLI_Source)
+FetchContent_MakeAvailable(${MY_BASE_PROJECT_NAME_FULL}_Source)
 
-FetchContent_MakeAvailable(MeddySDKCLI_Executable)
+FetchContent_MakeAvailable(${MY_BASE_PROJECT_NAME_FULL}_Executable)
 
 if(BUILD_TESTING)
-  FetchContent_MakeAvailable(MeddySDKCLI_Tests)
+  FetchContent_MakeAvailable(${MY_BASE_PROJECT_NAME_FULL}_Tests)
 endif()
 
 # Generate script that imports targets associated with our export.
