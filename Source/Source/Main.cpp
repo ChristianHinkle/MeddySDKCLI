@@ -132,6 +132,7 @@ int main(int argc, char** argv)
         // TODO: Error when extra args are given.
         DumpHelpStdOutput();
         std::cout << '\n';
+        std::cout.flush();
         return 0;
     }
 
