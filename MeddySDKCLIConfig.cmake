@@ -12,7 +12,7 @@ SET(MY_BASE_PROJECT_NAME_LEAFNAME "MeddySDKCLI")
 include(CMakeFindDependencyMacro)
 
 # Get the Meddyproject export.
-find_dependency(Meddyproject 0 CONFIG)
+find_dependency(MeddySDK_Meddyproject 0 CONFIG COMPONENTS Static)
 find_dependency(CppUtils_Misc 0 CONFIG COMPONENTS Static)
 
 # Include our export. This imports all of our targets.
