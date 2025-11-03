@@ -66,7 +66,7 @@ int main(int argc, char** argv)
 
             std::filesystem::path projectRootPathAbsolute =  std::filesystem::absolute(arg3rd);
 
-            MeddySDK::Meddyproject::CharBufferString<char, 2048> projectRootPathAbsoluteCharBuffer =
+            CppUtils::Misc::CharBufferString<char, 2048> projectRootPathAbsoluteCharBuffer =
                 MeddySDK::Meddyproject::FilesystemUtils::ConstructCrossPlatformPathCharacterBuffer<2048, char>(
                     projectRootPathAbsolute);
 
