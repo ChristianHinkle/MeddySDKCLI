@@ -8,7 +8,8 @@ For a superproject with all components Meddy has to offer, see [MeddySDK](https:
 ## Dependencies
 
 MeddySDKCLI
-- [MeddySDK_Meddyproject](https://github.com/ChristianHinko/MeddySDK_Meddyproject)
+- [MeddySDK_Meddyproject](https://github.com/ChristianHinkle/MeddySDK_Meddyproject)
+- [CppUtils_Misc](https://github.com/ChristianHinkle/CppUtils_Misc)
 
 ## Project Structure 📂
 
