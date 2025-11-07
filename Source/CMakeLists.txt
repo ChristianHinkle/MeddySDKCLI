@@ -132,6 +132,7 @@ endblock()
 
 find_package(MeddySDK_Meddyproject 0 CONFIG REQUIRED COMPONENTS Static)
 find_package(CppUtils_Misc 0 CONFIG REQUIRED COMPONENTS Static)
+find_package(Boost 0 CONFIG REQUIRED COMPONENTS filesystem)
 
 # Add dependencies to other targets. For imported targets, it's important to only depend on them if we
 # are BUILD_LOCAL_INTERFACE, because we don't want them to get mixed into our export.
@@ -139,6 +140,7 @@ target_link_libraries(${MY_BASE_PROJECT_NAME_FULL}_Source
   INTERFACE
     $<BUILD_LOCAL_INTERFACE:MeddySDK::Meddyproject::Static>
     $<BUILD_LOCAL_INTERFACE:CppUtils::Misc::Static>
+    $<BUILD_LOCAL_INTERFACE:Boost::filesystem>
   )
 
 # Associate our targets with an export and specify how their files would be installed.

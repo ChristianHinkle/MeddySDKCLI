@@ -2,7 +2,8 @@
 
 #include <iostream>
 #include <string_view>
-#include <filesystem>
+#include <boost/filesystem/path.hpp>
+#include <boost/filesystem/operations.hpp>
 #include <MeddySDK_Meddyproject/Meddyproject.h>
 #include <MeddySDK_Meddyproject/FilesystemUtils.h>
 #include <utility>
@@ -59,12 +60,12 @@ int main(int argc, char** argv)
             // TODO: Error when extra args are given.
 
             const std::string_view arg3rd = argv[3];
-            std::filesystem::path projectRootPath = arg3rd;
+            boost::filesystem::path projectRootPath = arg3rd;
 
             MeddySDK::Meddyproject::UncertainProjectCreationResult result =
                 MeddySDK::Meddyproject::TryCreateNewProject(std::move(projectRootPath));
 
-            std::filesystem::path projectRootPathAbsolute =  std::filesystem::absolute(arg3rd);
+            boost::filesystem::path projectRootPathAbsolute = boost::filesystem::absolute(boost::filesystem::path(arg3rd));
 
             CppUtils::Misc::CharBufferString<char, 2048> projectRootPathAbsoluteCharBuffer =
                 MeddySDK::Meddyproject::FilesystemUtils::ConstructCrossPlatformPathCharacterBuffer<2048, char>(
