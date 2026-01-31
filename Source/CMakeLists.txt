@@ -143,16 +143,22 @@ endblock()
 # Get any package exports which we depend on. This gives us imported targets for them.
 
 find_package(MeddySDK_Meddyproject 0 CONFIG REQUIRED COMPONENTS Static)
-find_package(CppUtils_Misc 0 CONFIG REQUIRED COMPONENTS Static)
+
 find_package(Boost 0 CONFIG REQUIRED COMPONENTS filesystem)
+
+find_package(CppUtils_StdReimpl CONFIG REQUIRED COMPONENTS Static)
+find_package(CppUtils_Core CONFIG REQUIRED COMPONENTS Static)
+find_package(CppUtils_Misc CONFIG REQUIRED COMPONENTS Static)
 
 # Add dependencies to other targets. For imported targets, it's important to only depend on them if we
 # are BUILD_LOCAL_INTERFACE, because we don't want them to get mixed into our export.
 target_link_libraries(${MY_BASE_PROJECT_NAME_FULL}_Source
   INTERFACE
     $<BUILD_LOCAL_INTERFACE:MeddySDK::Meddyproject::Static>
-    $<BUILD_LOCAL_INTERFACE:CppUtils::Misc::Static>
     $<BUILD_LOCAL_INTERFACE:Boost::filesystem>
+    $<BUILD_LOCAL_INTERFACE:CppUtils::StdReimpl::Static>
+    $<BUILD_LOCAL_INTERFACE:CppUtils::Core::Static>
+    $<BUILD_LOCAL_INTERFACE:CppUtils::Misc::Static>
   )
 
 # Associate our targets with an export and specify how their files would be installed.

@@ -13,7 +13,11 @@ include(CMakeFindDependencyMacro)
 
 # Get the Meddyproject export.
 find_dependency(MeddySDK_Meddyproject CONFIG COMPONENTS Static)
+
 find_dependency(Boost CONFIG COMPONENTS filesystem)
+
+find_dependency(CppUtils_StdReimpl CONFIG COMPONENTS Static)
+find_dependency(CppUtils_Core CONFIG COMPONENTS Static)
 find_dependency(CppUtils_Misc CONFIG COMPONENTS Static)
 
 # Include our export. This imports all of our targets.
