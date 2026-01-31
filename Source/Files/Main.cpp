@@ -4,8 +4,8 @@
 #include <string_view>
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem/operations.hpp>
-#include <MeddySDK_Meddyproject/Meddyproject.h>
-#include <MeddySDK_Meddyproject/FilesystemUtils.h>
+#include <MeddySDK/Meddyproject/Meddyproject.h>
+#include <MeddySDK/Meddyproject/FilesystemUtils.h>
 #include <utility>
 
 namespace
@@ -62,51 +62,51 @@ int main(int argc, char** argv)
             const std::string_view arg3rd = argv[3];
             boost::filesystem::path projectRootPath = arg3rd;
 
-            MeddySDK::Meddyproject::UncertainProjectCreationResult result =
-                MeddySDK::Meddyproject::TryCreateNewProject(std::move(projectRootPath));
+            MeddySDK::UncertainProjectCreationResult result =
+                MeddySDK::TryCreateNewProject(std::move(projectRootPath));
 
             boost::filesystem::path projectRootPathAbsolute = boost::filesystem::absolute(boost::filesystem::path(arg3rd));
 
             CppUtils::CharBufferString<char, 2048> projectRootPathAbsoluteCharBuffer =
-                MeddySDK::Meddyproject::FilesystemUtils::ConstructCrossPlatformPathCharacterBuffer<2048, char>(
+                MeddySDK::ConstructCrossPlatformPathCharacterBuffer<2048, char>(
                     projectRootPathAbsolute);
 
             std::string_view projectRootPathAbsoluteString = projectRootPathAbsoluteCharBuffer.GetStringView();
 
             switch (result)
             {
-            case MeddySDK::Meddyproject::UncertainProjectCreationResult::Failed_ValidProjectAlreadyExists:
+            case MeddySDK::UncertainProjectCreationResult::Failed_ValidProjectAlreadyExists:
                 std::cout << "error: \"" << projectRootPathAbsoluteString << "\" is already a meddyproject." << '\n';
                 std::cout << '\n';
                 std::cout.flush();
                 return 0;
-            case MeddySDK::Meddyproject::UncertainProjectCreationResult::Failed_ProjectRootIsNonDirectory:
+            case MeddySDK::UncertainProjectCreationResult::Failed_ProjectRootIsNonDirectory:
                 std::cout << "error: \"" << projectRootPathAbsoluteString << "\" is not a directory." << '\n';
                 std::cout << '\n';
                 std::cout.flush();
                 return 0;
-            case MeddySDK::Meddyproject::UncertainProjectCreationResult::Failed_ProjectRootDoesNotExist:
+            case MeddySDK::UncertainProjectCreationResult::Failed_ProjectRootDoesNotExist:
                 std::cout << "error: \"" << projectRootPathAbsoluteString << "\" is not an existing directory." << '\n';
                 std::cout << '\n';
                 std::cout.flush();
                 return 0;
-            case MeddySDK::Meddyproject::UncertainProjectCreationResult::Failed_DotMeddyprojectAlreadyExists:
-                std::cout << "error: \"" << projectRootPathAbsoluteString << "\" has an existing directory named \"" MEDDYSDK_MEDDYPROJECT_DOT_MEDDYPROJECT_STRING_LITERAL "\" which is preventing this operation." << '\n';
+            case MeddySDK::UncertainProjectCreationResult::Failed_DotMeddyprojectAlreadyExists:
+                std::cout << "error: \"" << projectRootPathAbsoluteString << "\" has an existing directory named \"" MEDDYSDK_DOT_MEDDYPROJECT_STRING_LITERAL "\" which is preventing this operation." << '\n';
                 std::cout << '\n';
                 std::cout.flush();
                 return 0;
-            case MeddySDK::Meddyproject::UncertainProjectCreationResult::Failed_DotMeddyprojectAlreadyExistsAndIsNonDirectory:
-                std::cout << "error: \"" << projectRootPathAbsoluteString << "\" has an existing file named \"" MEDDYSDK_MEDDYPROJECT_DOT_MEDDYPROJECT_STRING_LITERAL "\" which is preventing this operation." << '\n';
+            case MeddySDK::UncertainProjectCreationResult::Failed_DotMeddyprojectAlreadyExistsAndIsNonDirectory:
+                std::cout << "error: \"" << projectRootPathAbsoluteString << "\" has an existing file named \"" MEDDYSDK_DOT_MEDDYPROJECT_STRING_LITERAL "\" which is preventing this operation." << '\n';
                 std::cout << '\n';
                 std::cout.flush();
                 return 0;
-            case MeddySDK::Meddyproject::UncertainProjectCreationResult::Failed_FilesystemFailedToCreateDotMeddyproject:
-                std::cout << "error: Filesystem failed to create the \"" MEDDYSDK_MEDDYPROJECT_DOT_MEDDYPROJECT_STRING_LITERAL "\"." << '\n';
+            case MeddySDK::UncertainProjectCreationResult::Failed_FilesystemFailedToCreateDotMeddyproject:
+                std::cout << "error: Filesystem failed to create the \"" MEDDYSDK_DOT_MEDDYPROJECT_STRING_LITERAL "\"." << '\n';
                 std::cout << '\n';
                 std::cout.flush();
                 return 0;
-            case MeddySDK::Meddyproject::UncertainProjectCreationResult::Failed_FilesystemFailedToCreateManifestFile:
-                std::cout << "error: Filesystem failed to create the \"" MEDDYSDK_MEDDYPROJECT_MANIFEST_FILENAME_STRING_LITERAL "\"." << '\n';
+            case MeddySDK::UncertainProjectCreationResult::Failed_FilesystemFailedToCreateManifestFile:
+                std::cout << "error: Filesystem failed to create the \"" MEDDYSDK_MANIFEST_FILENAME_STRING_LITERAL "\"." << '\n';
                 std::cout << '\n';
                 std::cout.flush();
                 return 0;
