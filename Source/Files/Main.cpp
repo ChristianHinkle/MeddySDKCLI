@@ -68,7 +68,7 @@ int main(int argc, char** argv)
             boost::filesystem::path projectRootPathAbsolute = boost::filesystem::absolute(boost::filesystem::path(arg3rd));
 
             CppUtils::CharBufferString<char, 2048> projectRootPathAbsoluteCharBuffer =
-                MeddySDK::ConstructCrossPlatformPathCharacterBuffer<2048, char>(
+                MeddySDK::ConstructPrettyPathCharacterBuffer<2048, char>(
                     projectRootPathAbsolute);
 
             std::string_view projectRootPathAbsoluteString = projectRootPathAbsoluteCharBuffer.GetStringView();
